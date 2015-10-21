@@ -6,14 +6,19 @@
     -webkit-font-smoothing: antialiased;
 }
 
-#intro .item {
-/*    filter: hue-rotate(20deg);
-    -webkit-filter: hue-rotate(20deg);
-    -moz-filter: hue-rotate(20deg);
-    -o-filter: hue-rotate(20deg);
-    -ms-filter: hue-rotate(20deg);*/
-}
-
 .phone {
     font-size:80px;
+}
+
+#about {
+    background-color: #EEE;
+    border-bottom: solid 1px #CCC;
+}
+
+#services .services p {
+    text-align: justify;
+}
+
+#services .services .time {
+    padding-left:20px;
 }
