@@ -1,0 +1,19 @@
+/* your styles go here */
+#intro .carousel-caption,
+#intro .carousel-caption h1,
+#intro .carousel-caption h2 {
+    color:#fff;
+    -webkit-font-smoothing: antialiased;
+}
+
+#intro .item {
+/*    filter: hue-rotate(20deg);
+    -webkit-filter: hue-rotate(20deg);
+    -moz-filter: hue-rotate(20deg);
+    -o-filter: hue-rotate(20deg);
+    -ms-filter: hue-rotate(20deg);*/
+}
+
+.phone {
+    font-size:80px;
+}
