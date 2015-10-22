@@ -42,6 +42,16 @@ return array(
                             ),
                         ),
                     ),
+                    'profile' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'detail',
+                            'defaults' => array(
+                                'controller' => 'index',
+                                'action'     => 'detail',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

@@ -10,7 +10,11 @@ class IndexController extends BaseController
 {
     public function indexAction()
     {
-        return new ViewModel(array(
-        ));
+        return new ViewModel();
+    }
+
+    public function detailAction()
+    {
+       return new ViewModel();
     }
 }
