@@ -418,7 +418,8 @@ _________________________________________________________ -->
                     <div class="row">
 
                         <div class="col-md-8 col-md-offset-2">
-                            <form id="contact-form" method="post" action="contact.php">
+                            <!-- <form id="contact-form" method="post" action="contact.php"> -->
+                            <?php echo $this->form()->openTag($form);?>
 
                                 <div class="messages">
 
@@ -427,28 +428,36 @@ _________________________________________________________ -->
                                 <div class="controls">
 
                                     <div class="row">
+
                                         <div class="col-md-6">
-                                            <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required">
+                                            <?php echo $this->formElement($form->get('firstname'));?>
+                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="surname" class="form-control" placeholder="Nom *" required="required">
+                                            <?php echo $this->formElement($form->get('lastname'));?>
+                                            <!-- <input type="text" name="surname" class="form-control" placeholder="Nom *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="phone" class="form-control" placeholder="Téléphone *" required="required">
+                                            <?php echo $this->formElement($form->get('phone'));?>
+                                            <!-- <input type="text" name="phone" class="form-control" placeholder="Téléphone *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="email" class="form-control" placeholder="Email">
+                                            <?php echo $this->formElement($form->get('email'));?>
+                                            <!-- <input type="text" name="email" class="form-control" placeholder="Email"> -->
                                         </div>
                                         <div class="col-md-12">
-                                            <textarea name="message" class="form-control" placeholder="Message *" rows="4" required="required"></textarea>
+                                            <?php echo $this->formElement($form->get('comment'));?>
+                                            <!-- <textarea name="message" class="form-control" placeholder="Message *" rows="4" required="required"></textarea> -->
                                         </div>
                                         <div class="col-md-12 text-center">
-                                            <input type="submit" class="btn btn-primary btn-lg" value="Envoyer">
+                                            <?php echo $this->formElement($form->get('submit'));?>
+                                            <!-- <input type="submit" class="btn btn-primary btn-lg" value="Envoyer"> -->
                                         </div>
                                     </div>
                                 </div>
 
-                            </form>
+                            <?php echo $this->form()->closeTag($form);?>
+                            <!-- </form> -->
                         </div>
 
                     </div>

@@ -20,21 +20,22 @@
 }
 
 .reference-item {
-  width: 350px;
-  overflow: hidden;
+    width: 350px;
+    overflow: hidden;
 }
 @media (max-width: 1199px) {
-  .reference-item {
-    width: 400px;
-  }
+    .reference-item {
+        width: 400px;
+    }
 }
 @media (max-width: 991px) {
-  .reference-item {
-    width: 300px;
-  }
+    .reference-item {
+        width: 300px;
+    }
 }
 @media (max-width: 350px) {
-  .reference-item {
-    width: 260px;
-  }
+    .reference-item {
+        width: 260px;
+    }
 }
+
