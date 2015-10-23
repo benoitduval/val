@@ -5,6 +5,7 @@ use Zend\View\Model\ViewModel;
 use App\Form\Contact;
 use App\Form\ContactValidator;
 use App\Services\Mail;
+use Zend\Debug\Debug;
 
 class IndexController extends BaseController
 {
@@ -16,16 +17,13 @@ class IndexController extends BaseController
     public function detailAction()
     {
         // build Dates
-        $firstDate = strtotime('next monday');
-        $dates[] = 'Date';
-        $dates[$firstDate] = date('D d M Y', $firstDate);
+        $dates = [0 =>'Date'];
+        $date = new \DateTime('now');
         for ($i = 1; $i < 10; $i++) {
-            $timestamp = strtotime(date('y-m-d', $firstDate) . ' + ' . $i . ' weeks');
-            $date = new \App\Services\Date($timestamp);
-            $dates[$timestamp] = $date->format('D d M Y');
-            $timestamp = strtotime(date('y-m-d', $firstDate) . ' + ' . $i . ' weeks + 1 day');
-            $date = new \App\Services\Date($timestamp);
-            $dates[$timestamp] = $date->format('D d M Y');
+            $date = $date->modify('next monday');
+            $dates[$date->format('U')] = \App\Services\Date::translate($date->format('l d F Y'));
+            $date = $date->modify('next tuesday');
+            $dates[$date->format('U')] = \App\Services\Date::translate($date->format('l d F Y'));
         }
 
         // build time
