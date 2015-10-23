@@ -428,7 +428,18 @@ _________________________________________________________ -->
                                 <div class="controls">
 
                                     <div class="row">
-
+                                        <div class="col-md-3">
+                                            <?php echo $this->formElement($form->get('weekDay'));?>
+                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo $this->formElement($form->get('date'));?>
+                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                        </div>
+                                        <div class="col-md-3">
+                                            <?php echo $this->formElement($form->get('time'));?>
+                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                        </div>
                                         <div class="col-md-6">
                                             <?php echo $this->formElement($form->get('firstname'));?>
                                             <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->

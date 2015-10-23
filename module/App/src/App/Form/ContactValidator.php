@@ -30,29 +30,28 @@ class ContactValidator implements InputFilterAwareInterface
                         array('name' => 'StripTags'),
                         array('name' => 'StringTrim'),
                     ),
-                    'validators' => [ 
-                        [ 
-                            'name' => 'EmailAddress', 
-                            'options' => [ 
-                                'encoding' => 'UTF-8', 
-                                'min'      => 5, 
-                                'max'      => 255, 
-                                'messages' => array( 
-                                    \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid' 
-                                ) 
-                            ], 
-                        ], 
-                    ], 
+                    'validators' => [
+                        [
+                            'name' => 'EmailAddress',
+                            'options' => [
+                                'encoding' => 'UTF-8',
+                                'min'      => 5,
+                                'max'      => 255,
+                                'messages' => array(
+                                    \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Emzail address format is invalid'
+                                )
+                            ],
+                        ],
+                    ],
                 )
             ));
 
-
-            $inputFilter->add($factory->createInput(array( 
-                'name' => 'phone', 
-                'required' => true, 
-                'filters'  => array( 
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'phone',
+                'required' => true,
+                'filters'  => array(
                     array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'), 
+                    array('name' => 'StringTrim'),
                 ), 
                 'validators' => array(
                     array(

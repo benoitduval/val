@@ -33,7 +33,7 @@ class Date
 
     public function __construct($date)
     {
-        $this->_date = \DateTime::createFromFormat('Y-m-d H:i:s', $date);
+        $this->_date = \DateTime::createFromFormat('U', $date);
     }
 
     public function format($format = 'D d M \- H\hi')

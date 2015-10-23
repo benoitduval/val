@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class Contact extends Form
 {
-    public function __construct($name = null)
+    public function __construct($params, $name = null)
     {
         parent::__construct('volley');
 
@@ -90,6 +90,47 @@ class Contact extends Form
         ));
 
         $this->add(array(
+            'name' => 'weekDay',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'options' => array('Jour', 'Lundi', 'Mardi')
+            ),
+            'attributes' => array(
+                'id'    => 'weekDay',
+                'class' => 'form-control',
+                'required' => 'required',
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'date',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'options' => $params['dates']
+            ),
+            'attributes' => array(
+                'id'    => 'date',
+                'class' => 'form-control',
+                'required' => 'required',
+                'disabled' => 'disabled'
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'time',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'options' => $params['times']
+            ),
+            'attributes' => array(
+                'id'    => 'time',
+                'class' => 'form-control',
+                'required' => 'required',
+                'disabled' => 'disabled'
+            )
+        ));
+
+        $this->add(array(
             'name' => 'submit',
             'attributes' => array(
                 'class' => 'btn btn-primary btn-lg',
@@ -97,5 +138,11 @@ class Contact extends Form
                 'value' => 'Envoyer',
             )
         ));
+    }
+
+    public function setErrors(array $inputErrors)
+    {
+        $element = $this->getElement('phone');
+        \Zend\Debug\Debug::dump($element);die;
     }
 }

@@ -39,3 +39,6 @@
     }
 }
 
+.has-error {
+    border: solid 1px #a94442;
+}

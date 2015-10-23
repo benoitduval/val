@@ -12,8 +12,8 @@ $(function () {
     map();
     counters();
     parallax();
-    demo();
     slider();
+    form();
 });
 
 $(window).load(function () {
@@ -37,38 +37,6 @@ $(window).resize(function () {
     }
 
 });
-
-
-/* =========================================
- *  for demo purpose only - can be deleted 
- *  =======================================*/
-
-function demo() {
-
-    if ($.cookie("theme_csspath")) {
-    $('link#theme-stylesheet').attr("href", $.cookie("theme_csspath"));
-    }
-
-    $("#colour").change(function () {
-
-    if ($(this).val !== '') {
-
-        var colour = $(this).val();
-        var introImage = $('body').find('#intro .item');
-
-        introImage.removeClass();
-        introImage.addClass('item');
-        introImage.addClass(colour);
-
-
-        var theme_csspath = 'css/style.' + $(this).val() + '.css';
-        $('link#theme-stylesheet').attr("href", theme_csspath);
-        $.cookie("theme_csspath", theme_csspath, {expires: 365, path: '/'});
-    }
-
-    return false;
-    });
-}
 
 /* =========================================
  *  animations
@@ -419,7 +387,7 @@ function scrollSpyRefresh() {
 /* refresh waypoints */
 function waypointsRefresh() {
     setTimeout(function () {
-    $.waypoints('refresh');
+        $.waypoints('refresh');
     }, 1000);
 }
 
@@ -445,5 +413,38 @@ function slider() {
         stopOnHover: true,
         singleItem: true,
         afterInit: ''
+    });
+}
+
+function form() {
+    $('body').on('change', '#weekDay', function (event) {
+        $( "#weekDay option:selected" ).each(function() {
+            if ($( this ).text() == 'Lundi') {
+                var day = 'Lun';
+            } else {
+                var day = 'Mar';
+            }
+
+            $.each($('#date option'), function( index, element ) {
+                if (!element.text.match("^(Date|" + day + ").*")) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+
+            $.each($('#time option'), function( index, element ) {
+                if (day == 'Lun' && $.inArray($(this).val(), ['9', '14']) != -1) {
+                    $(this).hide();
+                } else if (day == 'Mar' && $.inArray($(this).val(), ['14', '18', '19', '20']) != -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+
+            });
+        });
+        $('#date').removeAttr('disabled');
+        $('#time').removeAttr('disabled');
     });
 }
