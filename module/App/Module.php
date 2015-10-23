@@ -48,6 +48,31 @@ class Module
     public function getServiceConfig()
     {
         return array(
+            'factories' => [
+
+                // Service Mail
+                'mail' => function ($sm) {
+                    $config   = $sm->get('config');
+                    $address  = $config['mail']['address'];
+                    $password = $config['mail']['password'];
+
+                    // Setup SMTP transport using LOGIN authentication
+                    $transport = new SmtpTransport();
+                    $options   = new SmtpOptions([
+                        'host'              => 'smtp.gmail.com',
+                        'connection_class'  => 'login',
+                        'connection_config' => [
+                            'ssl'       => 'tls',
+                            'username' => $address,
+                            'password' => $password
+                        ],
+                        'port' => 587,
+                    ]);
+
+                    $transport->setOptions($options);
+                    return $transport;
+                },
+            ]
         );
     }
 

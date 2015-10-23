@@ -4,6 +4,7 @@ namespace App\Controller;
 use Zend\View\Model\ViewModel;
 use App\Form\Contact;
 use App\Form\ContactValidator;
+use App\Services\Mail;
 
 class IndexController extends BaseController
 {
@@ -54,7 +55,24 @@ class IndexController extends BaseController
             $form->setInputFilter($formValidator->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                
+                $data = $form->getData();
+                $date = new \App\Services\Date($data['date']);
+                $mail = new Mail($this->getServiceLocator()->get('mail'));
+                $email = $data['email'] ? $data['email'] : 'no-reply@osteo-defour.fr';
+                $mail->addFrom($email);
+                $mail->addBcc('benoit.duval.pro@gmail.com');
+                $mail->setSubject('[osteo-defour.fr] Demande de RDV');
+                $mail->setTemplate(Mail::TEMPLATE_RDV, array(
+                    'firstname' => $data['firstname'],
+                    'lastname'  => $data['lastname'],
+                    'phone'     => $data['phone'],
+                    'email'     => $data['email'],
+                    'comment'   => $data['comment'],
+                    'date'      => $date->format('D d M Y'),
+                    'time'      => $data['time'],
+                    'baseUrl'   => '',
+                ));
+                $mail->send();
             } else {
                 $inputErrors = array_keys($form->getMessages());
                 foreach ($inputErrors as $input) {
