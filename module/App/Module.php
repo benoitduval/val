@@ -8,6 +8,8 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
+use App\Services\GoogleApi;
+
 
 class Module
 {
@@ -71,6 +73,12 @@ class Module
 
                     $transport->setOptions($options);
                     return $transport;
+                },
+
+                // Service google API
+                'googleApi' => function ($sm) {
+                    $config = $sm->get('config');
+                    return new GoogleApi($config['api']['googleapi']);
                 },
             ]
         );

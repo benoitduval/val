@@ -21,6 +21,11 @@ return array(
             'url' => '',
             'key' => '',
         ),
+        'googleapi' => array(
+            'appName'         => '',
+            'credentialsPath' => '',
+            'secretPath'      => '',
+        ),
     ),
     'baseUrl' => 'http://',
     'mail' => array(

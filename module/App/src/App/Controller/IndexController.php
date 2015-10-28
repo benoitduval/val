@@ -6,6 +6,7 @@ use App\Form\Contact;
 use App\Form\ContactValidator;
 use App\Services\Mail;
 use Zend\Debug\Debug;
+use App\Services\GoogleApi;
 
 class IndexController extends BaseController
 {
@@ -81,5 +82,49 @@ class IndexController extends BaseController
         return new ViewModel([
             'form' => $form
         ]);
+    }
+
+    public function googleAction()
+    {
+        // Get the API client and construct the service object.
+        $code = $this->params()->fromQuery('code', false);
+        $googleApi = $this->getServiceLocator()->get('googleApi');
+        if ($code) {
+            $result = $googleApi->authenticate($code);
+        } else {
+            $result = $googleApi->getApiClient();
+            if (isset($result['url'])) {
+                \Zend\Debug\Debug::dump($result['url']);die;
+            } else {
+                $client = $result['client'];
+            }
+
+            $service = new \Google_Service_Calendar($client);
+
+            // Print the next 10 events on the user's calendar.
+            $calendarId = 'primary';
+            $optParams = array(
+                'maxResults' => 10,
+                'orderBy' => 'startTime',
+                'singleEvents' => TRUE,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($calendarId, $optParams);
+
+            if (count($results->getItems()) == 0) {
+                print "No upcoming events found.\n";
+            } else {
+                print "Upcoming events:\n";
+                foreach ($results->getItems() as $event) {
+                    \Zend\Debug\Debug::dump($event);die;
+                    $start = $event->start->dateTime;
+                    if (empty($start)) {
+                        $start = $event->start->date;
+                    }
+                    printf("%s (%s)\n", $event->getSummary(), $start);
+                    \Zend\Debug\Debug::dump(array($event->getSummary(), $start));die;
+                }
+            }
+        }
     }
 }

@@ -52,6 +52,16 @@ return array(
                             ),
                         ),
                     ),
+                    'google' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'google',
+                            'defaults' => array(
+                                'controller' => 'index',
+                                'action'     => 'google',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
