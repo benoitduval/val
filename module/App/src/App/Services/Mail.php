@@ -69,7 +69,8 @@ class Mail
             border-top: solid 1px #ccc;
             text-transform: uppercase;
             line-height: 1.2;
-            margin:auto;
+            margin-left:auto;
+            margin-right:auto;
         ';
     }
 
@@ -105,8 +106,8 @@ class Mail
         return '
             background: #ffffff;
             font-family: HelveticaNeue-Thin;
-            font-size:
-            18px; font-weight: 100;
+            font-size: 18px;
+            font-weight: 100;
             padding-bottom:50px;
         ';
     }
@@ -128,7 +129,6 @@ class Mail
         <p>Nom : {lastname}</p>
         <p>Téléphone : {phone}</p>
         <p>Date : {date}</p>
-        <p>Heure : {time}h</p>
         <p>commentaire : {comment}</p>
     </div>
 </div>

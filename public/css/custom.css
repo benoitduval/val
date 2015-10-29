@@ -42,3 +42,9 @@
 .has-error {
     border: solid 1px #a94442;
 }
+
+.input-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}

@@ -437,22 +437,24 @@ function form() {
     });
 
     $('body').on('change', '#date', function (event) {
+        $('#time').attr('disabled', 'disabled');
         $("#date option:selected").each(function() {
             var url = '/calendar/' + $(this).val();
+            var el = $('#time');
+            $('#icon-time').html('<i class="fa fa-refresh fa-spin"></i>');
             var request = $.ajax({
               type: "GET",
               url: url
             }).done(function(times) {
-                var el = $('#time');
-                el.empty();
                 var times = jQuery.parseJSON(times);
-
+                el.empty();
                 $.each(times, function(value, key) {
                     var option = $('<option value="' + value + '">' + key + '</option>');
                     el.append(option);
                 });
+                $('#icon-time').html('<i class="fa fa-angle-double-down">');
+                $('#time').removeAttr('disabled');
             });
         });
-        $('#time').removeAttr('disabled');
     });
 }

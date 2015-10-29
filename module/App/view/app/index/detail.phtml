@@ -429,40 +429,40 @@ _________________________________________________________ -->
 
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <?php echo $this->formElement($form->get('weekDay'));?>
-                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                            <div class="input-group">
+                                                <?php echo $this->formElement($form->get('weekDay'));?>
+                                              <span class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <?php echo $this->formElement($form->get('date'));?>
-                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                            <div class="input-group">
+                                                <?php echo $this->formElement($form->get('date'));?>
+                                                  <span class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                            </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <?php echo $this->formElement($form->get('time'));?>
-                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
+                                            <div class="input-group">
+                                                <?php echo $this->formElement($form->get('time'));?>
+                                                  <span id="icon-time" class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo $this->formElement($form->get('firstname'));?>
-                                            <!-- <input type="text" name="name" class="form-control" placeholder="Prénom *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo $this->formElement($form->get('lastname'));?>
-                                            <!-- <input type="text" name="surname" class="form-control" placeholder="Nom *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo $this->formElement($form->get('phone'));?>
-                                            <!-- <input type="text" name="phone" class="form-control" placeholder="Téléphone *" required="required"> -->
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo $this->formElement($form->get('email'));?>
-                                            <!-- <input type="text" name="email" class="form-control" placeholder="Email"> -->
                                         </div>
                                         <div class="col-md-12">
                                             <?php echo $this->formElement($form->get('comment'));?>
-                                            <!-- <textarea name="message" class="form-control" placeholder="Message *" rows="4" required="required"></textarea> -->
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <?php echo $this->formElement($form->get('submit'));?>
-                                            <!-- <input type="submit" class="btn btn-primary btn-lg" value="Envoyer"> -->
                                         </div>
                                     </div>
                                 </div>

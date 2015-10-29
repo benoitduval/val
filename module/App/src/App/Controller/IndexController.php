@@ -55,20 +55,19 @@ class IndexController extends BaseController
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $date = new \App\Services\Date($data['date']);
+                $date = \Datetime::createFromFormat('Ymd H', $data['date'] . ' ' . $data['time']);
                 $mail = new Mail($this->getServiceLocator()->get('mail'));
                 $email = $data['email'] ? $data['email'] : 'no-reply@osteo-defour.fr';
                 $mail->addFrom($email);
                 $mail->addBcc('benoit.duval.pro@gmail.com');
-                $mail->setSubject('[osteo-defour.fr] Demande de RDV');
+                $mail->setSubject('[osteo-defour.fr] Demande de RDV - ' . $data['firstname'] . ' ' . $data['lastname']);
                 $mail->setTemplate(Mail::TEMPLATE_RDV, [
                     'firstname' => $data['firstname'],
                     'lastname'  => $data['lastname'],
                     'phone'     => $data['phone'],
                     'email'     => $data['email'],
                     'comment'   => $data['comment'],
-                    'date'      => $date->format('D d M Y'),
-                    'time'      => $data['time'],
+                    'date'      => \App\Services\Date::translate($date->format('l d F Y \à H:i')),
                     'baseUrl'   => '',
                 ]);
                 $mail->send();
