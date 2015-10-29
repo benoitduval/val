@@ -13,7 +13,7 @@ class OauthController extends BaseController
         $code = $this->params()->fromQuery('code', false);
         $googleApi = $this->getServiceLocator()->get('googleApi');
         if ($googleApi->authenticate($code)) {
-            return $this->redirect()->toRoute('App/google');
+            return $this->redirect()->toRoute('App/profile');
         }
     }
 }

@@ -17,6 +17,8 @@ class IndexController extends BaseController
 
     public function detailAction()
     {
+        $calendar = $this->getServiceLocator()->get('calendar');
+        
         // build Dates
         $dates = [0 =>'Date'];
         $date = new \DateTime('now');
@@ -103,7 +105,7 @@ class IndexController extends BaseController
         if ($startDay->format('l') == 'Monday') {
             $dates = [0 => 'Heure', 10 => '10h00', 11 => '11h00', 12 => '12h00', 13 => '13h00', 15 => '15h00', 16 => '16h00', 17 => '17h00', 18 => '18h00', 19 => '19h00', 20 => '20h00'];
         } else {
-            $dates = [0 => 'Heure', 9 => '09h00',10 => '10h00', 11 => '11h00', 12 => '12h00', 13 => '13h00', 15 => '15h00', 16 => '16h00', 17 => '17h00', 18 => '18h00', 19 => '19h00', 20 => '20h00'];
+            $dates = [0 => 'Heure', 9 => '09h00',10 => '10h00', 11 => '11h00', 12 => '12h00', 13 => '13h00', 15 => '15h00', 16 => '16h00'];
         }
         if (count($results->getItems())) {
             foreach ($results->getItems() as $event) {
@@ -130,5 +132,28 @@ class IndexController extends BaseController
         $view->setTerminal(true);
         $view->setTemplate('app/index/json.phtml');
         return $view;
+    }
+
+    public function createAction()
+    {
+        $googleApi = $this->getServiceLocator()->get('calendar');
+        // $googleApi->setScopes(\Google_Service_Calendar::CALENDAR);
+        $event = new \Google_Service_Calendar_Event(array(
+          'summary' => 'Google I/O 2015',
+          'description' => 'A chance to hear more about Google\'s developer products.',
+          'start' => array(
+            'dateTime' => '2015-11-06T09:00:00-01:00',
+            'timeZone' => 'Europe/Paris',
+          ),
+          'end' => array(
+            'dateTime' => '2015-11-06T12:00:00-01:00',
+            'timeZone' => 'Europe/Paris',
+          ),
+        ));
+
+        $calendarId = 'primary';
+        $event = $googleApi->events->insert($calendarId, $event);
+        \Zend\Debug\Debug::dump('Event created: ' . $event->htmlLink);die;
+        printf('Event created: %s\n', $event->htmlLink);
     }
 }

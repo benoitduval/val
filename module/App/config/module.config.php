@@ -52,6 +52,16 @@ return array(
                             ),
                         ),
                     ),
+                    'calendar-create' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'create',
+                            'defaults' => array(
+                                'controller' => 'index',
+                                'action'     => 'create',
+                            ),
+                        ),
+                    ),
                     'calendar' => array(
                         'type'    => 'Segment',
                         'options' => array(

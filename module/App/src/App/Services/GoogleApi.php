@@ -50,7 +50,7 @@ class GoogleApi
     {
       try {
           $accessToken = $this->_client->authenticate($code);
-
+          error_log(print_r($accessToken, true));
           // Store the credentials to disk.
           if(!file_exists($this->_credentialsPath)) {
               mkdir(dirname($this->_credentialsPath), 0777, true);
@@ -67,10 +67,7 @@ class GoogleApi
         if (!$this->_client) {
             $this->_client = new \Google_Client();
             $this->_client->setApplicationName($this->_appName);
-            $this->_client->setScopes(implode(' ', array(
-                \Google_Service_Calendar::CALENDAR_READONLY)
-            ));
-
+            $this->_client->setScopes(\Google_Service_Calendar::CALENDAR);
             $this->_client->setAuthConfigFile($this->_secretPath);
             $this->_client->setAccessType('offline');
             $this->_client->setApprovalPrompt('force');
