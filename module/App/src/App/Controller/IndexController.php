@@ -22,9 +22,9 @@ class IndexController extends BaseController
         $date = new \DateTime('now');
         for ($i = 1; $i < 10; $i++) {
             $date = $date->modify('next monday');
-            $dates[$date->format('U')] = \App\Services\Date::translate($date->format('l d F Y'));
+            $dates[$date->format('Ymd')] = \App\Services\Date::translate($date->format('l d F Y'));
             $date = $date->modify('next tuesday');
-            $dates[$date->format('U')] = \App\Services\Date::translate($date->format('l d F Y'));
+            $dates[$date->format('Ymd')] = \App\Services\Date::translate($date->format('l d F Y'));
         }
 
         // build time
@@ -61,7 +61,7 @@ class IndexController extends BaseController
                 $mail->addFrom($email);
                 $mail->addBcc('benoit.duval.pro@gmail.com');
                 $mail->setSubject('[osteo-defour.fr] Demande de RDV');
-                $mail->setTemplate(Mail::TEMPLATE_RDV, array(
+                $mail->setTemplate(Mail::TEMPLATE_RDV, [
                     'firstname' => $data['firstname'],
                     'lastname'  => $data['lastname'],
                     'phone'     => $data['phone'],
@@ -70,7 +70,7 @@ class IndexController extends BaseController
                     'date'      => $date->format('D d M Y'),
                     'time'      => $data['time'],
                     'baseUrl'   => '',
-                ));
+                ]);
                 $mail->send();
             } else {
                 $inputErrors = array_keys($form->getMessages());
@@ -84,47 +84,52 @@ class IndexController extends BaseController
         ]);
     }
 
-    public function googleAction()
+    public function calendarAction()
     {
-        // Get the API client and construct the service object.
-        $code = $this->params()->fromQuery('code', false);
-        $googleApi = $this->getServiceLocator()->get('googleApi');
-        if ($code) {
-            $result = $googleApi->authenticate($code);
+        $calendar = $this->getServiceLocator()->get('calendar');
+        $date     = $this->params('date');
+        $startDay = \Datetime::createFromFormat('Ymd H:i:s', $date . ' 08:00:00');
+        $endDay   = \Datetime::createFromFormat('Ymd H:i:s', $date . ' 21:00:00');
+
+        $optParams = [
+            'orderBy'      => 'startTime',
+            'singleEvents' => TRUE,
+            'timeMin'      => $startDay->format(\Datetime::ATOM),
+            'timeMax'      => $endDay->format(\Datetime::ATOM),
+        ];
+
+        $config = $this->getServiceLocator()->get('config');
+        $results = $calendar->events->listEvents($config['api']['googleapi']['calendarId'], $optParams);
+
+        if ($startDay->format('l') == 'Monday') {
+            $dates = [0 => 'Heure', 10 => '10h00', 11 => '11h00', 12 => '12h00', 13 => '13h00', 15 => '15h00', 16 => '16h00', 17 => '17h00', 18 => '18h00', 19 => '19h00', 20 => '20h00'];
         } else {
-            $result = $googleApi->getApiClient();
-            if (isset($result['url'])) {
-                \Zend\Debug\Debug::dump($result['url']);die;
-            } else {
-                $client = $result['client'];
-            }
-
-            $service = new \Google_Service_Calendar($client);
-
-            // Print the next 10 events on the user's calendar.
-            $calendarId = 'primary';
-            $optParams = array(
-                'maxResults' => 10,
-                'orderBy' => 'startTime',
-                'singleEvents' => TRUE,
-                'timeMin' => date('c'),
-            );
-            $results = $service->events->listEvents($calendarId, $optParams);
-
-            if (count($results->getItems()) == 0) {
-                print "No upcoming events found.\n";
-            } else {
-                print "Upcoming events:\n";
-                foreach ($results->getItems() as $event) {
-                    \Zend\Debug\Debug::dump($event);die;
-                    $start = $event->start->dateTime;
-                    if (empty($start)) {
-                        $start = $event->start->date;
+            $dates = [0 => 'Heure', 9 => '09h00',10 => '10h00', 11 => '11h00', 12 => '12h00', 13 => '13h00', 15 => '15h00', 16 => '16h00', 17 => '17h00', 18 => '18h00', 19 => '19h00', 20 => '20h00'];
+        }
+        if (count($results->getItems())) {
+            foreach ($results->getItems() as $event) {
+                if ($start = $event->start->dateTime) {
+                    $end       = $event->end->dateTime;
+                    $startDate = \Datetime::createFromFormat(\Datetime::ATOM, $start);
+                    if (!in_array($startDate->format('l'), ['Monday', 'Tuesday'])) continue;
+                    $endDate   = \Datetime::createFromFormat(\Datetime::ATOM, $end);
+                    for($i = $startDate->format('H'); $i < $endDate->format('H'); $i++) {
+                        unset($dates[$i]);
                     }
-                    printf("%s (%s)\n", $event->getSummary(), $start);
-                    \Zend\Debug\Debug::dump(array($event->getSummary(), $start));die;
+                } else if ($start = $event->start->date) {
+                    $dates = [0 => 'Aucune Place'];
                 }
             }
         }
+
+        if (count($dates) == 1) $dates = [0 => 'Aucune Place'];
+
+        $view = new ViewModel(array(
+            'result' => $dates
+        ));
+
+        $view->setTerminal(true);
+        $view->setTemplate('app/index/json.phtml');
+        return $view;
     }
 }

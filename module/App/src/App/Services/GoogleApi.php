@@ -48,12 +48,18 @@ class GoogleApi
 
     public function authenticate($code)
     {
-        $accessToken = $this->_client->authenticate($code);
-        // Store the credentials to disk.
-        if(!file_exists(dirname($this->_credentialsPath))) {
-            mkdir(dirname($this->_credentialsPath), 0700, true);
-        }
-        file_put_contents($this->_credentialsPath, $accessToken);
+      try {
+          $accessToken = $this->_client->authenticate($code);
+
+          // Store the credentials to disk.
+          if(!file_exists($this->_credentialsPath)) {
+              mkdir(dirname($this->_credentialsPath), 0777, true);
+          }
+          file_put_contents($this->_credentialsPath, $accessToken);
+          return true;
+      } catch (Exception $e) {
+          return false;
+      }
     }
 
     private function _getClient()
@@ -68,7 +74,7 @@ class GoogleApi
             $this->_client->setAuthConfigFile($this->_secretPath);
             $this->_client->setAccessType('offline');
             $this->_client->setApprovalPrompt('force');
-            $this->_client->setRedirectUri('http://val.dev/google');
+            $this->_client->setRedirectUri($this->_redirectUrl);
         }
 
         return $this->_client;

@@ -432,19 +432,27 @@ function form() {
                     $(this).show();
                 }
             });
-
-            $.each($('#time option'), function( index, element ) {
-                if (day == 'Lun' && $.inArray($(this).val(), ['9', '14']) != -1) {
-                    $(this).hide();
-                } else if (day == 'Mar' && $.inArray($(this).val(), ['14', '18', '19', '20']) != -1) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-
-            });
         });
         $('#date').removeAttr('disabled');
+    });
+
+    $('body').on('change', '#date', function (event) {
+        $("#date option:selected").each(function() {
+            var url = '/calendar/' + $(this).val();
+            var request = $.ajax({
+              type: "GET",
+              url: url
+            }).done(function(times) {
+                var el = $('#time');
+                el.empty();
+                var times = jQuery.parseJSON(times);
+
+                $.each(times, function(value, key) {
+                    var option = $('<option value="' + value + '">' + key + '</option>');
+                    el.append(option);
+                });
+            });
+        });
         $('#time').removeAttr('disabled');
     });
 }

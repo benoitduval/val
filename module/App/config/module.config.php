@@ -52,13 +52,13 @@ return array(
                             ),
                         ),
                     ),
-                    'google' => array(
+                    'calendar' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => 'google',
+                            'route'    => 'calendar/:date',
                             'defaults' => array(
                                 'controller' => 'index',
-                                'action'     => 'google',
+                                'action'     => 'calendar',
                             ),
                         ),
                     ),
@@ -88,6 +88,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'App\Controller\Index'   => 'App\Controller\IndexController',
+            'App\Controller\Oauth'   => 'App\Controller\OauthController',
         ),
     ),
     'view_manager' => array(

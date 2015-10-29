@@ -25,6 +25,8 @@ return array(
             'appName'         => '',
             'credentialsPath' => '',
             'secretPath'      => '',
+            'redirectUrl'     => '',
+            'calendarId'      => '',
         ),
     ),
     'baseUrl' => 'http://',

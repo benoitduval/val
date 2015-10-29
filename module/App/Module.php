@@ -77,8 +77,16 @@ class Module
 
                 // Service google API
                 'googleApi' => function ($sm) {
-                    $config = $sm->get('config');
+                    $config    = $sm->get('config');
                     return new GoogleApi($config['api']['googleapi']);
+                },
+
+                // Service google API
+                'calendar' => function ($sm) {
+                    $api    = $sm->get('googleApi');
+                    $result = $api->getApiClient();
+                    if (isset($result['url'])) header('Location: '. $result['url']);
+                    return new \Google_Service_Calendar($result['client']);
                 },
             ]
         );
