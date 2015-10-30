@@ -52,16 +52,6 @@ return array(
                             ),
                         ),
                     ),
-                    'calendar-create' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => 'create',
-                            'defaults' => array(
-                                'controller' => 'index',
-                                'action'     => 'create',
-                            ),
-                        ),
-                    ),
                     'calendar' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -69,6 +59,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'index',
                                 'action'     => 'calendar',
+                            ),
+                        ),
+                    ),
+                    'admin' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'admin/:action',
+                            'defaults' => array(
+                                'controller' => 'admin',
+                                'action'     => 'login',
                             ),
                         ),
                     ),
@@ -99,6 +99,7 @@ return array(
         'invokables' => array(
             'App\Controller\Index'   => 'App\Controller\IndexController',
             'App\Controller\Oauth'   => 'App\Controller\OauthController',
+            'App\Controller\Admin'   => 'App\Controller\AdminController',
         ),
     ),
     'view_manager' => array(

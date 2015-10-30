@@ -43,8 +43,21 @@
     border: solid 1px #a94442;
 }
 
-.input-group select {
+#contact .input-group select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+#intro input[name='submit'] {
+  margin-bottom: 300px;
+  margin-top: 30px;
+}
+
+.admin {
+    padding-top:160px;
+}
+
+.admin .row {
+    font-size: 16px;
 }

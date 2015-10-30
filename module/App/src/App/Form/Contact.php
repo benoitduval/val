@@ -8,7 +8,7 @@ class Contact extends Form
 {
     public function __construct($params, $name = null)
     {
-        parent::__construct('volley');
+        parent::__construct('contact');
 
         $this->setAttributes(array(
             'method'=> 'post',

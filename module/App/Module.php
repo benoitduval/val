@@ -44,13 +44,47 @@ class Module
     public function getControllerPluginConfig()
     {
         return array(
+            'factories' => array(
+                'userAuth' => function ($sm) {
+                    $serviceLocator = $sm->getServiceLocator();
+                    $authService = $serviceLocator->get('authService');
+                    $authAdapter = $serviceLocator->get('App\Auth\Adapter\Db');
+                    $controllerPlugin = new Controller\Plugin\UserAuth;
+                    $controllerPlugin->setAuthService($authService);
+                    $controllerPlugin->setAuthAdapter($authAdapter);
+
+                    return $controllerPlugin;
+                },
+            ),
         );
     }
 
     public function getServiceConfig()
     {
         return array(
+            'invokables' => [
+                'App\Auth\Adapter\Db'  => 'App\Auth\Adapter\Db',
+            ],
             'factories' => [
+                'authService' => function ($sm) {
+                    return new \Zend\Authentication\AuthenticationService(
+                        $sm->get('App\Auth\Storage\Cookie'),
+                        $sm->get('App\Auth\Adapter\Db')
+                    );
+                },
+                'App\Auth\Storage\Cookie' => function ($sm) {
+                    $storage = new \App\Auth\Storage\Cookie();
+                    $storage->setUserMapper($sm->get('userMapper'));
+
+                    return $storage;
+                },
+
+                'userDbAuth' => function ($sm) {
+                    $adapter = new \App\Auth\Adapter\Db();
+                    $adapter->setUserMapper($sm->get('userMapper'));
+
+                    return $adapter;
+                },
 
                 // Service Mail
                 'mail' => function ($sm) {
@@ -87,6 +121,34 @@ class Module
                     $result = $api->getApiClient();
                     if (isset($result['url'])) header('Location: '. $result['url']);
                     return new \Google_Service_Calendar($result['client']);
+                },
+
+                /******************************
+                 * MAPPERS
+                 ******************************/
+
+                'userMapper' => function ($sm) {
+                    if (is_null(static::$_sm)) static::$_sm = $sm;
+                    $mapper = static::getMapper('user');
+
+                    return $mapper;
+                },
+
+                'rdvMapper' => function ($sm) {
+                    if (is_null(static::$_sm)) static::$_sm = $sm;
+                    $mapper = static::getMapper('rdv');
+
+                    return $mapper;
+                },
+
+                /******************************
+                 * GATEWAY
+                 ******************************/
+                'UserTableGateway' => function ($sm) {
+                    return static::getTableGateway('user');
+                },
+                'RdvTableGateway' => function ($sm) {
+                    return static::getTableGateway('rdv');
                 },
             ]
         );

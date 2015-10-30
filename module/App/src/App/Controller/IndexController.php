@@ -5,8 +5,8 @@ use Zend\View\Model\ViewModel;
 use App\Form\Contact;
 use App\Form\ContactValidator;
 use App\Services\Mail;
-use Zend\Debug\Debug;
 use App\Services\GoogleApi;
+use App\Entity\Rdv;
 
 class IndexController extends BaseController
 {
@@ -58,9 +58,22 @@ class IndexController extends BaseController
             if ($form->isValid()) {
                 $data = $form->getData();
                 $date = \Datetime::createFromFormat('Ymd H', $data['date'] . ' ' . $data['time']);
+
+                // save RDV in DB
+                $rdvMapper = $this->getServiceLocator()->get('rdvMapper');
+                $rdv = $rdvMapper->fromArray([
+                    'email'     => $data['email'],
+                    'firstname' => $data['firstname'],
+                    'lastname'  => $data['lastname'],
+                    'status'    => 0,
+                    'date'      => $date->format('Y-m-d H:i:s'),
+                    'phone'     => $data['phone'],
+                    'comment'   => $data['comment'],
+                ])->save();
+
+                // Emailing
                 $mail = new Mail($this->getServiceLocator()->get('mail'));
-                $email = $data['email'] ? $data['email'] : 'no-reply@osteo-defour.fr';
-                $mail->addFrom($email);
+                $mail->addFrom('osteo.defour@gmail.com');
                 $mail->addBcc('benoit.duval.pro@gmail.com');
                 $mail->setSubject('[osteo-defour.fr] Demande de RDV - ' . $data['firstname'] . ' ' . $data['lastname']);
                 $mail->setTemplate(Mail::TEMPLATE_RDV, [
@@ -73,6 +86,7 @@ class IndexController extends BaseController
                     'baseUrl'   => '',
                 ]);
                 $mail->send();
+
             } else {
                 $inputErrors = array_keys($form->getMessages());
                 foreach ($inputErrors as $input) {
@@ -132,28 +146,5 @@ class IndexController extends BaseController
         $view->setTerminal(true);
         $view->setTemplate('app/index/json.phtml');
         return $view;
-    }
-
-    public function createAction()
-    {
-        $googleApi = $this->getServiceLocator()->get('calendar');
-        // $googleApi->setScopes(\Google_Service_Calendar::CALENDAR);
-        $event = new \Google_Service_Calendar_Event(array(
-          'summary' => 'Google I/O 2015',
-          'description' => 'A chance to hear more about Google\'s developer products.',
-          'start' => array(
-            'dateTime' => '2015-11-06T09:00:00-01:00',
-            'timeZone' => 'Europe/Paris',
-          ),
-          'end' => array(
-            'dateTime' => '2015-11-06T12:00:00-01:00',
-            'timeZone' => 'Europe/Paris',
-          ),
-        ));
-
-        $calendarId = 'primary';
-        $event = $googleApi->events->insert($calendarId, $event);
-        \Zend\Debug\Debug::dump('Event created: ' . $event->htmlLink);die;
-        printf('Event created: %s\n', $event->htmlLink);
     }
 }

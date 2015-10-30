@@ -1,0 +1,40 @@
+<?php echo $this->form()->openTag($form); ?>
+
+<div class="content-white col-xs-12 header">
+    <h1>Authentification</h1>
+</div>
+
+<div id="intro" class="clearfix">
+    <div class="item">
+        <div class="container">
+            <div class="row">
+                <div class="carousel-caption">
+
+                    <div class="col-md-8 col-md-offset-2">
+                        <?php echo $this->form()->openTag($form);?>
+
+                            <div class="controls">
+                                <div class="com-xs-12 col-md-8 col-md-offset-2">
+                                    <div class="input-group">
+                                        <span id="icon-time" class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                                        <?php echo $this->formElement($form->get('email'));?>
+                                    </div>
+                                </div>
+                                <div class="com-xs-12 col-md-8 col-md-offset-2">
+                                    <div class="input-group">
+                                        <span id="icon-time" class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                                        <?php echo $this->formElement($form->get('password'));?>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <?php echo $this->formElement($form->get('submit'));?>
+                                </div>
+                            </div>
+
+                        <?php echo $this->form()->closeTag($form);?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
