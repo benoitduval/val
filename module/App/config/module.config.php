@@ -72,6 +72,16 @@ return array(
                             ),
                         ),
                     ),
+                    'admin-detail' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'admin/:action/:id',
+                            'defaults' => array(
+                                'controller' => 'admin',
+                                'action'     => 'login',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

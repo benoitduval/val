@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class Contact extends Form
 {
-    public function __construct($params, $name = null)
+    public function __construct($params = array(), $name = null)
     {
         parent::__construct('contact');
 

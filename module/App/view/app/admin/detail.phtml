@@ -1,0 +1,55 @@
+<div class="section contact admin" id="contact" data-animate="fadeInDown">
+    <div class="container">
+        <div class="col-md-12">
+            <h2 class="title">Ton Rendez-vous</h2>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <?php echo $this->form()->openTag($form);?>
+                        <div class="messages">
+                        </div>
+                        <div class="controls">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <?php echo $this->formElement($form->get('weekDay'));?>
+                                      <span class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <?php echo $this->formElement($form->get('date'));?>
+                                          <span class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <?php echo $this->formElement($form->get('time'));?>
+                                          <span id="icon-time" class="input-group-addon"><i class="fa fa-angle-double-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <?php echo $this->formElement($form->get('firstname'));?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?php echo $this->formElement($form->get('lastname'));?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?php echo $this->formElement($form->get('phone'));?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?php echo $this->formElement($form->get('email'));?>
+                                </div>
+                                <div class="col-md-12">
+                                    <?php echo $this->formElement($form->get('comment'));?>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <?php echo $this->formElement($form->get('submit'));?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php echo $this->form()->closeTag($form);?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
