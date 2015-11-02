@@ -7,40 +7,15 @@
                     <h2 class="title" data-animate="fadeInUp">Demandes de RDV</h2>
                 </div>
                 <div data-animate="fadeInUp">
-                    <div class='col-md-4'>
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <div class='col-md-2'>
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <div class='col-md-3'>
-                        <i class="fa fa-envelope-o"></i>
-                    </div>
-                    <div class='col-md-1'>
-                        <i class="fa fa-phone"></i>
-                    </div>
-                    <div class='col-md-1'>
-                    </div>
-                    <div class='col-md-1'>
-                    </div>
                     <?php foreach ($rdv as $event): ?>
                         <div class='col-md-4'>
                             <?php echo $event->firstname . ' ' . $event->lastname; ?>
                         </div>
-                        <div class='col-md-2'>
-                            <?php echo $event->date; ?>
+                        <div class='col-md-4'>
+                            <?php echo \App\Services\Date::translate($event->date->format('l d F Y')); ?>
                         </div>
-                        <div class='col-md-3'>
-                            <?php echo $event->email; ?>
-                        </div>
-                        <div class='col-md-1'>
-                            <?php echo $event->phone; ?>
-                        </div>
-                        <div class='col-md-1'>
-                            <?php echo $event->status; ?>
-                        </div>
-                        <div class='col-md-1'>
-                            <a href="#">Valider</a>
+                        <div class='col-md-4'>
+                            <a href="admin/detail/<?php echo $event->id ?>">Details</a>
                         </div>
                     <?php endforeach ?>
                 </div>

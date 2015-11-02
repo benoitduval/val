@@ -25,4 +25,8 @@ class Rdv extends AbstractEntity
             'status'    => $this->_status,
         );
     }
+
+    public function getDate() {
+        return \Datetime::createFromFormat('Y-m-d H:i:s', $this->_date);
+    }
 }
