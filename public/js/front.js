@@ -14,6 +14,7 @@ $(function () {
     parallax();
     slider();
     form();
+    adminDate();
 });
 
 $(window).load(function () {
@@ -296,37 +297,38 @@ function fullScreenContainer() {
  *  =======================================*/
 
 function map() {
+    if (($("#map").length > 0)) {
+        var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"lightness": 65}, {"visibility": "on"}]}, {"featureType": "poi", "stylers": [{"saturation": -100}, {"lightness": 51}, {"visibility": "simplified"}]}, {"featureType": "road.highway", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "road.arterial", "stylers": [{"saturation": -100}, {"lightness": 30}, {"visibility": "on"}]}, {"featureType": "road.local", "stylers": [{"saturation": -100}, {"lightness": 40}, {"visibility": "on"}]}, {"featureType": "transit", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "administrative.province", "stylers": [{"visibility": "off"}]}, {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"lightness": -25}, {"saturation": -100}]}, {"featureType": "water", "elementType": "geometry", "stylers": [{"hue": "#ffff00"}, {"lightness": -25}, {"saturation": -97}]}];
+        map = new GMaps({
+        el: '#map',
+        lat: 48.5500328,
+        lng: 3.2948152,
+        zoomControl: true,
+        zoomControlOpt: {
+            style: 'SMALL',
+            position: 'TOP_LEFT'
+        },
+        panControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        overviewMapControl: false,
+        scrollwheel: false,
+        draggable: true,
+        styles: styles
+        });
 
-    var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"lightness": 65}, {"visibility": "on"}]}, {"featureType": "poi", "stylers": [{"saturation": -100}, {"lightness": 51}, {"visibility": "simplified"}]}, {"featureType": "road.highway", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "road.arterial", "stylers": [{"saturation": -100}, {"lightness": 30}, {"visibility": "on"}]}, {"featureType": "road.local", "stylers": [{"saturation": -100}, {"lightness": 40}, {"visibility": "on"}]}, {"featureType": "transit", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "administrative.province", "stylers": [{"visibility": "off"}]}, {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"lightness": -25}, {"saturation": -100}]}, {"featureType": "water", "elementType": "geometry", "stylers": [{"hue": "#ffff00"}, {"lightness": -25}, {"saturation": -97}]}];
-    map = new GMaps({
-    el: '#map',
-    lat: 48.5500328,
-    lng: 3.2948152,
-    zoomControl: true,
-    zoomControlOpt: {
-        style: 'SMALL',
-        position: 'TOP_LEFT'
-    },
-    panControl: false,
-    streetViewControl: false,
-    mapTypeControl: false,
-    overviewMapControl: false,
-    scrollwheel: false,
-    draggable: true,
-    styles: styles
-    });
+        var image = 'img/marker.png';
 
-    var image = 'img/marker.png';
-
-    map.addMarker({
-    lat: 48.5500328,
-    lng: 3.2948152,
-    icon: image/* ,
-     title: '',
-     infoWindow: {
-     content: '<p>HTML Content</p>'
-     }*/
-    });
+        map.addMarker({
+        lat: 48.5500328,
+        lng: 3.2948152,
+        icon: image/* ,
+         title: '',
+         infoWindow: {
+         content: '<p>HTML Content</p>'
+         }*/
+        });
+    }
 }
 
 /* =========================================
@@ -394,26 +396,28 @@ function waypointsRefresh() {
 /* refresh waypoints */
 function slider() {
     var element = $('.img-slider');
-    images = element.data('images').split(',');
+    if ($("#one").length > 0) {
+        images = element.data('images').split(',');
 
-    if (images.length > 0) {
-        slider = '';
-        for (var i = 0; i < images.length; ++i) {
-            slider = slider + '<div class="item"><img src=' + images[i] + ' alt="" class="img-responsive"></div>';
+        if (images.length > 0) {
+            slider = '';
+            for (var i = 0; i < images.length; ++i) {
+                slider = slider + '<div class="item"><img src=' + images[i] + ' alt="" class="img-responsive"></div>';
+            }
+        } else {
+            slider = '';
         }
-    } else {
-        slider = '';
-    }
 
-    $('#detail-slider').html(slider);
-    $('#detail-slider').owlCarousel({
-        slideSpeed: 500,
-        paginationSpeed: 600,
-        autoPlay: 4000,
-        stopOnHover: true,
-        singleItem: true,
-        afterInit: ''
-    });
+        $('#detail-slider').html(slider);
+        $('#detail-slider').owlCarousel({
+            slideSpeed: 500,
+            paginationSpeed: 600,
+            autoPlay: 4000,
+            stopOnHover: true,
+            singleItem: true,
+            afterInit: ''
+        });
+    }
 }
 
 function form() {
@@ -456,5 +460,17 @@ function form() {
                 $('#time').removeAttr('disabled');
             });
         });
+    });
+}
+
+function adminDate()
+{
+    $('#full-date').datetimepicker({
+        format: "dd/mm/yyyy hh:ii",
+        language: "fr",
+        autoclose: true,
+        orientation: "top left",
+        minuteStep: 60,
+        daysOfWeekDisabled: [0, 3, 4, 5, 6]
     });
 }

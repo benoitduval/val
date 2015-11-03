@@ -79,6 +79,22 @@ class Contact extends Form
         ));
 
         $this->add(array(
+            'name' => 'full-date',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Date',
+                'id'    => 'full-date',
+            ),
+            'options' => array(
+                'label' => 'Date',
+                'label_attributes' => array(
+                    'class'  => 'control-label'
+                ),
+            ),
+        ));
+
+        $this->add(array(
             'name' => 'comment',
             'type' => 'Zend\Form\Element\Textarea',
             'attributes' => array(
@@ -138,11 +154,5 @@ class Contact extends Form
                 'value' => 'Envoyer',
             )
         ));
-    }
-
-    public function setErrors(array $inputErrors)
-    {
-        $element = $this->getElement('phone');
-        \Zend\Debug\Debug::dump($element);die;
     }
 }

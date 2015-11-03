@@ -8,6 +8,7 @@ use App\Form\LoginValidator;
 use App\Entity\User;
 use App\Form\Contact;
 use App\Form\ContactValidator;
+use App\Services\Date;
 
 
 class AdminController extends BaseController
@@ -87,10 +88,20 @@ class AdminController extends BaseController
     public function detailAction()
     {
         $id = $this->_params('id');
-        $form = new Contact();
         $calendar = $this->getServiceLocator()->get('rdvMapper')->getById($id);
+        $form = new Contact([
+            'dates' => [],
+            'times' => [],
+            'submit' => 'Sauvegarder et valider'
+        ]);
+        $data = $calendar->toArray();
+        $data['full-date'] = $calendar->getDate()->format('d/m/Y H:i');
+        $date = Date::translate($calendar->getDate()->format('l d M Y'));
+        $form->setData($data);
+        $form->get('submit');
 
         return new ViewModel(array(
+            'date'     => $date,
             'form'     => $form,
             'calendar' => $calendar,
         ));
