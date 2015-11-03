@@ -3,6 +3,10 @@ namespace App\Entity;
 
 class Rdv extends AbstractEntity
 {
+    const STATUS_CREATE       = 0;
+    const STATUS_CONFIRMED    = 1;
+    const STATUS_NEED_CONFIRM = 2;
+
     protected $_id         = null;
     protected $_email      = null;
     protected $_phone      = null;
@@ -17,16 +21,16 @@ class Rdv extends AbstractEntity
         return array(
             'id'        => (int) $this->_id,
             'email'     => $this->_email,
-            'phone'     => $this->phone,
-            'firstname' => $this->firstname,
-            'lastname'  => $this->lastname,
-            'comment'   => $this->comment,
-            'date'      => $this->date,
+            'phone'     => $this->_phone,
+            'firstname' => $this->_firstname,
+            'lastname'  => $this->_lastname,
+            'comment'   => $this->_comment,
+            'date'      => $this->_date,
             'status'    => $this->_status,
         );
     }
 
     public function getDate() {
-        return \Datetime::createFromFormat('Y-m-d H:i:s', $this->_date);
+        return \Datetime::createFromFormat('Y-m-d H:i:s', $this->_date, new \DateTimeZone('Europe/Paris'));
     }
 }

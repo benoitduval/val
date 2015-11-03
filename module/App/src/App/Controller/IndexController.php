@@ -20,7 +20,7 @@ class IndexController extends BaseController
         $calendar = $this->getServiceLocator()->get('calendar');
         
         // build Dates
-        $dates = [0 =>'Date'];
+        $dates = [0 => 'Date'];
         $date = new \DateTime('now');
         for ($i = 1; $i < 10; $i++) {
             $date = $date->modify('next monday');
@@ -87,6 +87,11 @@ class IndexController extends BaseController
                 ]);
                 $mail->send();
 
+                $this->flashMessenger()->addMessage(
+                    '<p>Demande de rendez-vous prise en compte.</p> 
+                     <p>Nous vous confirmerons ce rendez-vous dans les plus brefs délais.</p>
+                ');
+                $this->redirect()->toRoute('App/profile');
             } else {
                 $inputErrors = array_keys($form->getMessages());
                 foreach ($inputErrors as $input) {

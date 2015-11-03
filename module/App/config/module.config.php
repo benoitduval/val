@@ -62,23 +62,23 @@ return array(
                             ),
                         ),
                     ),
+                    'admin-detail' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => 'admin/detail/:id',
+                            'defaults' => array(
+                                'controller' => 'admin',
+                                'action'     => 'detail',
+                            ),
+                        ),
+                    ),
                     'admin' => array(
                         'type'    => 'Segment',
                         'options' => array(
                             'route'    => 'admin/:action',
                             'defaults' => array(
                                 'controller' => 'admin',
-                                'action'     => 'login',
-                            ),
-                        ),
-                    ),
-                    'admin-detail' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => 'admin/:action/:id',
-                            'defaults' => array(
-                                'controller' => 'admin',
-                                'action'     => 'login',
+                                'action'     => 'index',
                             ),
                         ),
                     ),

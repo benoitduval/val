@@ -15,6 +15,7 @@ $(function () {
     slider();
     form();
     adminDate();
+    modal();
 });
 
 $(window).load(function () {
@@ -463,8 +464,7 @@ function form() {
     });
 }
 
-function adminDate()
-{
+function adminDate() {
     $('#full-date').datetimepicker({
         format: "dd/mm/yyyy hh:ii",
         language: "fr",
@@ -473,4 +473,8 @@ function adminDate()
         minuteStep: 60,
         daysOfWeekDisabled: [0, 3, 4, 5, 6]
     });
+}
+
+function modal() {
+    $('.modal').modal('toggle');
 }

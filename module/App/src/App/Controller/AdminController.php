@@ -5,10 +5,11 @@ use Zend\View\Model\ViewModel;
 use Zend\Mvc\MvcEvent;
 use App\Form\Login;
 use App\Form\LoginValidator;
-use App\Entity\User;
+use App\Entity\Rdv;
 use App\Form\Contact;
-use App\Form\ContactValidator;
+use App\Form\AdminContactValidator;
 use App\Services\Date;
+use App\Services\Mail;
 
 
 class AdminController extends BaseController
@@ -62,43 +63,89 @@ class AdminController extends BaseController
         ));
     }
 
-    public function createAction()
-    {
-        $googleApi = $this->getServiceLocator()->get('calendar');
-        // $googleApi->setScopes(\Google_Service_Calendar::CALENDAR);
-        $event = new \Google_Service_Calendar_Event(array(
-          'summary' => 'Google I/O 2015',
-          'description' => 'A chance to hear more about Google\'s developer products.',
-          'start' => array(
-            'dateTime' => '2015-11-06T09:00:00-01:00',
-            'timeZone' => 'Europe/Paris',
-          ),
-          'end' => array(
-            'dateTime' => '2015-11-06T12:00:00-01:00',
-            'timeZone' => 'Europe/Paris',
-          ),
-        ));
-
-        $calendarId = 'primary';
-        $event = $googleApi->events->insert($calendarId, $event);
-        \Zend\Debug\Debug::dump('Event created: ' . $event->htmlLink);die;
-        printf('Event created: %s\n', $event->htmlLink);
-    }
-
     public function detailAction()
     {
         $id = $this->_params('id');
         $calendar = $this->getServiceLocator()->get('rdvMapper')->getById($id);
         $form = new Contact([
             'dates' => [],
-            'times' => [],
-            'submit' => 'Sauvegarder et valider'
+            'times' => []
         ]);
         $data = $calendar->toArray();
         $data['full-date'] = $calendar->getDate()->format('d/m/Y H:i');
-        $date = Date::translate($calendar->getDate()->format('l d M Y'));
+        $date = Date::translate($calendar->getDate()->format('l d M Y \à H\h'));
         $form->setData($data);
-        $form->get('submit');
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $formValidator = new AdminContactValidator();
+            $form->setInputFilter($formValidator->getInputFilter());
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $data = $form->getData();
+                try {
+                    $googleApi = $this->getServiceLocator()->get('calendar');
+                    $requestDate = \DateTime::createFromFormat('d/m/Y H:i', $data['full-date'], new \DateTimeZone('Europe/Paris'));
+                    $event = new \Google_Service_Calendar_Event(array(
+                      'summary' => $data['firstname'] . ' ' . $data['lastname'] . ' - ' . $data['phone'],
+                      'description' => $data['comment'],
+                      'start' => array(
+                        'dateTime' => $requestDate->format(\Datetime::ATOM),
+                        'timeZone' => 'Europe/Paris',
+                      ),
+                      'end' => array(
+                        'dateTime' =>  $requestDate->modify('+ 1 hour')->format(\Datetime::ATOM),
+                        'timeZone' => 'Europe/Paris',
+                      ),
+                    ));
+
+                    $calendarId = 'osteo.defour@gmail.com';
+                    $event = $googleApi->events->insert($calendarId, $event);
+
+                    if (isset($data['email'])) {
+                        // Emailing
+                        $mail = new Mail($this->getServiceLocator()->get('mail'));
+                        $mail->addFrom('osteo.defour@gmail.com');
+                        $mail->addBcc($data['email']);
+                        $mail->setSubject('[osteo-defour.fr] Rendez-vous du  - ' . \App\Services\Date::translate($requestDate->format('l d F Y \à H:i')) . ' confirmé');
+                        $mail->setTemplate(Mail::TEMPLATE_RDV, [
+                            'firstname' => $data['firstname'],
+                            'lastname'  => $data['lastname'],
+                            'phone'     => $data['phone'],
+                            'email'     => $data['email'],
+                            'comment'   => $data['comment'],
+                            'date'      => \App\Services\Date::translate($requestDate->format('l d F Y \à H:i')),
+                            'baseUrl'   => '',
+                        ]);
+                        $mail->send();
+                        $message = '<i class="fa fa-envelope"></i> Un email de confirmation a été envoyé au patient';
+                        $this->getServiceLocator()->get('rdvMapper')->delete($id);
+                    } else {
+                        $message = '<i class="fa fa-exclamation-triangle"></i> Une confirmation téléphonique s\'impose';
+                        $this->getServiceLocator()->get('rdvMapper')->fromArray([
+                            'id'        => $calendar->id,
+                            'firstname' => $data['firstname'],
+                            'lastname'  => $data['lastname'],
+                            'phone'     => $data['phone'],
+                            'email'     => $data['email'],
+                            'comment'   => $data['comment'],
+                            'date'      => $requestDate->format('Y-m-d H:i:s'),
+                            'status'    => 1
+                        ])->save();
+                    }
+
+                    $this->flashMessenger()->addMessage(
+                        '<p>Rendez-vous ajouté au calendrier !</p> 
+                         <p>' . $message . '</p>
+                    ');
+                } catch (Exception $e) {
+                    $this->flashMessenger()->addErrorMessage(
+                        '<p>Un problème est survenu lors de l\'ajout au calendrier</p>
+                    ');
+                }
+                $this->redirect()->toRoute('App/admin');
+            }
+        }
 
         return new ViewModel(array(
             'date'     => $date,
@@ -106,8 +153,6 @@ class AdminController extends BaseController
             'calendar' => $calendar,
         ));
     }
-
-
 
     protected function _auth($data)
     {

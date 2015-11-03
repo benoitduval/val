@@ -2,7 +2,6 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-
                 <div class="mb20">
                     <h2 class="title" data-animate="fadeInUp">Demandes de RDV</h2>
                 </div>
@@ -14,8 +13,11 @@
                         <div class='col-md-4'>
                             <?php echo \App\Services\Date::translate($event->date->format('l d F Y')); ?>
                         </div>
-                        <div class='col-md-4'>
-                            <a href="admin/detail/<?php echo $event->id ?>">Details</a>
+                        <div class='col-md-1'>
+                            <?php echo $event->status; ?>
+                        </div>
+                        <div class='col-md-3'>
+                            <a href="/admin/detail/<?php echo $event->id ?>">Details</a>
                         </div>
                     <?php endforeach ?>
                 </div>

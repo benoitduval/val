@@ -101,7 +101,26 @@ _________________________________________________________ -->
     <!-- /#navbar -->
 
     <!-- *** NAVBAR END *** -->
-
+    <?php if ($this->flashMessenger()->hasMessages()): ?>
+        <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Demande de RDV</h4>
+              </div>
+              <div class="modal-body">
+                <p><?php 
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                        echo $message;
+                    }
+                    ?></p>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <?php endif ?>
 
     <div id="all">
         <?php echo $this->content; ?>
@@ -144,10 +163,6 @@ _________________________________________________________ -->
     <!-- main js file -->
 
     <script src="/js/front.js"></script>
-
-    
-
-
 
 </body>
 
