@@ -6,20 +6,48 @@
                     <h2 class="title" data-animate="fadeInUp">Demandes de RDV</h2>
                 </div>
                 <div data-animate="fadeInUp">
-                    <?php foreach ($rdv as $event): ?>
-                        <div class='col-md-4'>
-                            <?php echo $event->firstname . ' ' . $event->lastname; ?>
-                        </div>
-                        <div class='col-md-4'>
-                            <?php echo \App\Services\Date::translate($event->date->format('l d F Y')); ?>
-                        </div>
-                        <div class='col-md-1'>
-                            <?php echo $event->status; ?>
-                        </div>
-                        <div class='col-md-3'>
-                            <a href="/admin/detail/<?php echo $event->id ?>">Details</a>
-                        </div>
-                    <?php endforeach ?>
+                    <?php if (empty($results[\App\Entity\Rdv::STATUS_CREATED])): ?>
+                        <div class="col-md-12">Aucun nouveau RDV</div>
+                    <?php else: ?>
+                        <?php foreach ($results[\App\Entity\Rdv::STATUS_CREATED] as $event): ?>
+                            <div class='col-md-4'>
+                                <?php echo $event['firstname'] . ' ' . $event['lastname']; ?>
+                            </div>
+                            <div class='col-md-4'>
+                                <?php echo $event['date']; ?>
+                            </div>
+                            <div class='col-md-1'>
+                                <?php echo $event['phone']; ?>
+                            </div>
+                            <div class='col-md-3'>
+                                <a href="/admin/detail/<?php echo $event['id'] ?>">Details</a>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                </div>
+
+                <div class="mb20">
+                    <h2 class="title" data-animate="fadeInUp">Patient non informé</h2>
+                </div>
+                <div data-animate="fadeInUp">
+                    <?php if (empty($results[\App\Entity\Rdv::STATUS_NEED_CONFIRM])): ?>
+                        <div class="col-md-12">Aucun nouveau RDV</div>
+                    <?php else: ?>
+                        <?php foreach ($results[\App\Entity\Rdv::STATUS_NEED_CONFIRM] as $event): ?>
+                            <div class='col-md-4'>
+                                <?php echo $event['firstname'] . ' ' . $event['lastname']; ?>
+                            </div>
+                            <div class='col-md-4'>
+                                <?php echo $event['date']; ?>
+                            </div>
+                            <div class='col-md-1'>
+                                <?php echo $event['phone']; ?>
+                            </div>
+                            <div class='col-md-3'>
+                                <a href="/admin/detail/<?php echo $event['id'] ?>">C'est fait</a>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </div>
             </div>
         </div>

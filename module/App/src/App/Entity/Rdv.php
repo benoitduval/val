@@ -3,9 +3,8 @@ namespace App\Entity;
 
 class Rdv extends AbstractEntity
 {
-    const STATUS_CREATE       = 0;
-    const STATUS_CONFIRMED    = 1;
-    const STATUS_NEED_CONFIRM = 2;
+    const STATUS_CREATED      = 0;
+    const STATUS_NEED_CONFIRM = 1;
 
     protected $_id         = null;
     protected $_email      = null;

@@ -20,10 +20,15 @@ class AdminController extends BaseController
     public function indexAction()
     {
         $rdvMapper = $this->getServiceLocator()->get('rdvMapper');
-        $rdv = $rdvMapper->fetchAll();
+        $rows = $rdvMapper->fetchAll([], 'date ASC');
+
+        foreach ($rows as $rdv) {
+            $results[$rdv->status][$rdv->id] = $rdv->toArray();
+            $results[$rdv->status][$rdv->id]['date'] = Date::translate($rdv->getDate()->format('l d F Y'));
+        }
 
         return new ViewModel(array(
-            'rdv' => $rdv,
+            'results' => $results,
         ));
     }
 
@@ -130,7 +135,7 @@ class AdminController extends BaseController
                             'email'     => $data['email'],
                             'comment'   => $data['comment'],
                             'date'      => $requestDate->format('Y-m-d H:i:s'),
-                            'status'    => 1
+                            'status'    => Rdv::STATUS_NEED_CONFIRM,
                         ])->save();
                     }
 
