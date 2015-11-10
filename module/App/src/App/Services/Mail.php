@@ -10,7 +10,8 @@ use Zend\Mail\Transport\SmtpOptions;
 
 class Mail
 {
-    const TEMPLATE_RDV = 1;
+    const TEMPLATE_RDV          = 1;
+    const TEMPLATE_CONFIRMATION = 2;
 
     protected $_transport;
     protected $_mail;
@@ -52,14 +53,17 @@ class Mail
             line-height: 22px;
             margin-bottom: 11px;
             text-align: left;
-            width: 95%;
+            width: 90%;
+            padding-left:50px;
+            padding-right:50px;
+            margin:0 auto;
         ';
     }
 
     public function getTitleStyle()
     {
         return '
-            display: inline-block;
+            display: block;
             font-size: 50px;
             font-weight: 100;
             padding: 10px 0;
@@ -69,6 +73,7 @@ class Mail
             border-top: solid 1px #ccc;
             text-transform: uppercase;
             line-height: 1.2;
+            width:400px;
             margin-left:auto;
             margin-right:auto;
         ';
@@ -112,6 +117,15 @@ class Mail
         ';
     }
 
+    public function getSignatureStyle()
+    {
+        return '
+            font-family: HelveticaNeue-Thin;
+            font-size: 14px;
+        ';
+    }
+
+
     public function setTemplate($template, $data)
     {
         $data;
@@ -123,13 +137,33 @@ class Mail
         <h1 style="' . $this->getTitleStyle() . '">
             Demande de RDV
         </h1>
-    </div>
-    <div style="' . $this->getContentWhiteStyle() . '">
         <p>Prénom : {firstname}</p>
         <p>Nom : {lastname}</p>
         <p>Téléphone : {phone}</p>
         <p>Date : {date}</p>
         <p>commentaire : {comment}</p>
+        <a href="http://val.dev/admin/detail/{id}" style="' . $this->getButtonStyle() . '">Voir le rendez-vous</a>
+    </div>
+</div>
+            ';
+            break;
+
+            case self::TEMPLATE_CONFIRMATION:
+                $content = '
+<div style="' . $this->getBaseStyle() . '">
+    <div style ="' . $this->getContentWhiteStyle() . '">
+        <h1 style="' . $this->getTitleStyle() . '">
+            Rendez-vous confirmé
+        </h1>
+        <p>Bonjour {firstname},</p>
+        <p>Votre rendez-vous du <b>{date}</b> est maintenant confirmé,<br/>en cas d\'imprévu, merci me contacter au 06.74.72.55.00</p>
+        <p>Je vous dis à bientôt et vous remerci de votre confiance,</p>
+        <p style="' . $this->getSignatureStyle() . '">
+            Valérie Defour<br/>
+            osteo.defour@gmail.com<br/>
+            http://osteo-defour.fr<br/>
+            06.74.72.55.00
+        </p>
     </div>
 </div>
             ';

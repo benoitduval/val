@@ -113,7 +113,7 @@ class AdminController extends BaseController
                         $mail->addFrom('osteo.defour@gmail.com');
                         $mail->addBcc($data['email']);
                         $mail->setSubject('[osteo-defour.fr] Rendez-vous du  - ' . \App\Services\Date::translate($requestDate->format('l d F Y \à H:i')) . ' confirmé');
-                        $mail->setTemplate(Mail::TEMPLATE_RDV, [
+                        $mail->setTemplate(Mail::TEMPLATE_CONFIRMATION, [
                             'firstname' => $data['firstname'],
                             'lastname'  => $data['lastname'],
                             'phone'     => $data['phone'],

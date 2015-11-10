@@ -77,6 +77,7 @@ class IndexController extends BaseController
                 $mail->addBcc('benoit.duval.pro@gmail.com');
                 $mail->setSubject('[osteo-defour.fr] Demande de RDV - ' . $data['firstname'] . ' ' . $data['lastname']);
                 $mail->setTemplate(Mail::TEMPLATE_RDV, [
+                    'id'        => $rdv->id,
                     'firstname' => $data['firstname'],
                     'lastname'  => $data['lastname'],
                     'phone'     => $data['phone'],
