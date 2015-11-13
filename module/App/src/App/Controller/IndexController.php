@@ -12,13 +12,8 @@ class IndexController extends BaseController
 {
     public function indexAction()
     {
-        return new ViewModel();
-    }
-
-    public function detailAction()
-    {
         $calendar = $this->getServiceLocator()->get('calendar');
-        
+
         // build Dates
         $dates = [0 => 'Date'];
         $date = new \DateTime('now');

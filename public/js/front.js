@@ -208,13 +208,13 @@ $('.reference-item').click(function (e) {
     images = element.find('.reference-description').data('images').split(',');
 
     if (images.length > 0) {
-    slider = '';
-    for (var i = 0; i < images.length; ++i) {
-        slider = slider + '<div class="item"><img src=' + images[i] + ' alt="" class="img-responsive"></div>';
-    }
+        slider = '';
+        for (var i = 0; i < images.length; ++i) {
+            slider = slider + '<div class="item"><img src=' + images[i] + ' alt="" class="img-responsive"></div>';
+        }
     }
     else {
-    slider = '';
+        slider = '';
     }
 
     $('#detail-title').text(title);
@@ -394,7 +394,7 @@ function waypointsRefresh() {
 /* refresh waypoints */
 function slider() {
     var element = $('.img-slider');
-    if ($("#one").length > 0) {
+    if (element.length > 0) {
         images = element.data('images').split(',');
 
         if (images.length > 0) {

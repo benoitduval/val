@@ -7,7 +7,7 @@
 }
 
 .phone {
-    font-size:80px;
+    font-size:60px;
 }
 
 #about {
@@ -60,4 +60,20 @@
 
 .admin .row {
     font-size: 20px;
+}
+
+.dropdown-menu .active a {
+    font-family: 'Roboto Slab', serif;
+    color:#555;
+    background-color: #FFF;
+}
+
+.dropdown-menu .active a:hover {
+    background-color: #4fbfa8;
+}
+
+.testimonials .item h4 {
+    text-align: center;
+    color: #4fbfa8;
+    margin-bottom:30px;
 }
