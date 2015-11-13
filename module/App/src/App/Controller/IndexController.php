@@ -87,7 +87,7 @@ class IndexController extends BaseController
                     '<p>Demande de rendez-vous prise en compte.</p> 
                      <p>Nous vous confirmerons ce rendez-vous dans les plus brefs délais.</p>
                 ');
-                $this->redirect()->toRoute('App/profile');
+                $this->redirect()->toRoute('App/default');
             } else {
                 $inputErrors = array_keys($form->getMessages());
                 foreach ($inputErrors as $input) {

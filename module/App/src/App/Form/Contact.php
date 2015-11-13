@@ -149,6 +149,7 @@ class Contact extends Form
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
+                'id'    => 'eventSubmit',
                 'class' => 'btn btn-primary btn-lg',
                 'type' => 'submit',
                 'value' => 'Envoyer',

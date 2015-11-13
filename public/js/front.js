@@ -16,6 +16,7 @@ $(function () {
     form();
     adminDate();
     modal();
+    submitButton();
 });
 
 $(window).load(function () {
@@ -454,7 +455,7 @@ function form() {
                     var option = $('<option value="' + value + '">' + key + '</option>');
                     el.append(option);
                 });
-                $('#icon-time').html('<i class="fa fa-angle-double-down">');
+                $('#icon-time').html('<i class="fa fa-angle-double-down"></i>');
                 $('#time').removeAttr('disabled');
             });
         });
@@ -474,4 +475,13 @@ function adminDate() {
 
 function modal() {
     $('.modal').modal('toggle');
+}
+
+function submitButton() {
+    if ($("#contact-form").length > 0) {
+        $('#contact-form').on('submit', function () {
+            $('#eventSubmit').val('En cours');
+            $('#eventSubmit').prop('disabled', true);
+        })
+    }
 }

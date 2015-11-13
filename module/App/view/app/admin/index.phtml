@@ -3,52 +3,58 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="mb20">
-                    <h2 class="title" data-animate="fadeInUp">Demandes de RDV</h2>
+                    <h2 class="title" >Demandes de RDV</h2>
                 </div>
-                <div data-animate="fadeInUp">
+                <table class="table table-striped" data-animate="fadeInUp">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Date</th>
+                        <th>Téléphone</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                     <?php if (empty($results[\App\Entity\Rdv::STATUS_CREATED])): ?>
                         <div class="col-md-12">Aucun nouveau RDV</div>
                     <?php else: ?>
                         <?php foreach ($results[\App\Entity\Rdv::STATUS_CREATED] as $event): ?>
-                            <div class='col-md-4'>
-                                <?php echo $event['firstname'] . ' ' . $event['lastname']; ?>
-                            </div>
-                            <div class='col-md-4'>
-                                <?php echo $event['date']; ?>
-                            </div>
-                            <div class='col-md-1'>
-                                <?php echo $event['phone']; ?>
-                            </div>
-                            <div class='col-md-3'>
-                                <a href="/admin/detail/<?php echo $event['id'] ?>">Details</a>
-                            </div>
+                            <tr>
+                                <td><?php echo $event['firstname'] . ' ' . $event['lastname']; ?></td>
+                                <td><?php echo $event['date']; ?></td>
+                                <td><?php echo $event['phone']; ?></td>
+                                <td><a href="/admin/detail/<?php echo $event['id'] ?>">Details</a></td>
                         <?php endforeach ?>
                     <?php endif ?>
-                </div>
+                    </tbody>
+                </table>
 
                 <div class="mb20">
                     <h2 class="title" data-animate="fadeInUp">Patient non informé</h2>
                 </div>
-                <div data-animate="fadeInUp">
+                <table class="table table-striped" data-animate="fadeInUp">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Date</th>
+                        <th>Téléphone</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                     <?php if (empty($results[\App\Entity\Rdv::STATUS_NEED_CONFIRM])): ?>
                         <div class="col-md-12">Aucun nouveau RDV</div>
                     <?php else: ?>
                         <?php foreach ($results[\App\Entity\Rdv::STATUS_NEED_CONFIRM] as $event): ?>
-                            <div class='col-md-4'>
-                                <?php echo $event['firstname'] . ' ' . $event['lastname']; ?>
-                            </div>
-                            <div class='col-md-4'>
-                                <?php echo $event['date']; ?>
-                            </div>
-                            <div class='col-md-1'>
-                                <?php echo $event['phone']; ?>
-                            </div>
-                            <div class='col-md-3'>
-                                <a href="/admin/detail/<?php echo $event['id'] ?>">C'est fait</a>
-                            </div>
+                            <tr>
+                                <td><?php echo $event['firstname'] . ' ' . $event['lastname']; ?></td>
+                                <td><?php echo $event['date']; ?></td>
+                                <td><?php echo $event['phone']; ?></td>
+                                <td><a href="/admin/detail/<?php echo $event['id'] ?>">Details</a></td>
                         <?php endforeach ?>
                     <?php endif ?>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
