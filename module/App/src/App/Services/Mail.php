@@ -142,7 +142,7 @@ class Mail
         <p>Téléphone : {phone}</p>
         <p>Date : {date}</p>
         <p>commentaire : {comment}</p>
-        <a href="http://val.dev/admin/detail/{id}" style="' . $this->getButtonStyle() . '">Voir le rendez-vous</a>
+        <a href="{baseUrl}/admin/detail/{id}" style="' . $this->getButtonStyle() . '">Voir le rendez-vous</a>
     </div>
 </div>
             ';

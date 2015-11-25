@@ -13,6 +13,7 @@ class IndexController extends BaseController
     public function indexAction()
     {
         $calendar = $this->getServiceLocator()->get('calendar');
+        $config   = $this->getServiceLocator()->get('config');
 
         // build Dates
         $dates = [0 => 'Date'];
@@ -68,8 +69,8 @@ class IndexController extends BaseController
 
                 // Emailing
                 $mail = new Mail($this->getServiceLocator()->get('mail'));
-                $mail->addFrom('osteo.defour@gmail.com');
-                $mail->addBcc('benoit.duval.pro@gmail.com');
+                $mail->addFrom($config['mail']['address']);
+                $mail->addBcc($config['mail']['bcc']);
                 $mail->setSubject('[osteo-defour.fr] Demande de RDV - ' . $data['firstname'] . ' ' . $data['lastname']);
                 $mail->setTemplate(Mail::TEMPLATE_RDV, [
                     'id'        => $rdv->id,
@@ -79,7 +80,7 @@ class IndexController extends BaseController
                     'email'     => $data['email'],
                     'comment'   => $data['comment'],
                     'date'      => \App\Services\Date::translate($date->format('l d F Y \à H:i')),
-                    'baseUrl'   => '',
+                    'baseUrl'   => $config['baseUrl'],
                 ]);
                 $mail->send();
 

@@ -39,7 +39,7 @@ class AdminController extends BaseController
             if ($this->userAuth()->hasIdentity()) {
                 $this->user = $this->userAuth()->getIdentity();
             } else {
-                return $this->redirect()->toRoute('App/admin');
+                return $this->redirect()->toRoute('App/admin', ['action' => 'login']);
             }
         }
         parent::onDispatch($e);

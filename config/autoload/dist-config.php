@@ -31,7 +31,8 @@ return array(
     ),
     'baseUrl' => 'http://',
     'mail' => array(
-        'address' => '',
+        'address'  => '',
         'password' => '',
+        'bcc'      => '',
     )
 );
