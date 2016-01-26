@@ -22,6 +22,7 @@ class AdminController extends BaseController
         $rdvMapper = $this->getServiceLocator()->get('rdvMapper');
         $rows = $rdvMapper->fetchAll([], 'date ASC');
 
+        $results = array();
         foreach ($rows as $rdv) {
             $results[$rdv->status][$rdv->id] = $rdv->toArray();
             $results[$rdv->status][$rdv->id]['date'] = Date::translate($rdv->getDate()->format('l d F Y'));
