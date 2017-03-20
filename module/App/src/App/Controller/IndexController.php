@@ -12,7 +12,7 @@ class IndexController extends BaseController
 {
     public function indexAction()
     {
-        $calendar = $this->getServiceLocator()->get('calendar');
+        //$calendar = $this->getServiceLocator()->get('calendar');
         $config   = $this->getServiceLocator()->get('config');
 
         // build Dates
@@ -97,7 +97,7 @@ class IndexController extends BaseController
             }
         }
         return new ViewModel([
-            'form' => $form
+            // 'form' => $form
         ]);
     }
 
